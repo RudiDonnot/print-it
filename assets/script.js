@@ -18,32 +18,55 @@ const slides = [
   },
 ];
 
-let arrowreactright = document.querySelector(".arrow_right");
+const arrowLeft = document.querySelector(".arrow_left");
 
-arrowreactright.addEventListener("click", (e) => {
-  i++;
-  let img = document.getElementById("imagechanger");
-  img.src = "./assets/images/slideshow/" + slides[i].image;
-  let texte = slides[i].tagLine;
-  document.getElementById("textechanger").innerHTML = texte;
-  if (i === 3) {
-    i -= 4;
-    let img = document.getElementById("imagechanger");
+const arrowRight = document.querySelector(".arrow_right");
+
+const bannerImg = document.querySelector(".banner-img");
+
+const dotsContainer = document.querySelector(".dots");
+
+let currentIndex = 0;
+
+function updateCarroussel(index) {
+  if (index < 0) {
+    currentIndex = slides.length - 1;
+  } else if (index >= slides.length) {
+    currentIndex = 0;
   }
+  const slide = slides[currentIndex];
+  bannerImg.src = `assets/images/slideshow/${slide.image}`;
+  document.querySelector("p").innerHTML = slide.tagLine;
+
+  //fonction pour les points//
+  const allDots = dotsContainer.querySelectorAll(".dot");
+  allDots.forEach((dot) => {
+    dot.classList.remove("dot_selected");
+  });
+
+  //fonction d'ajout des points//
+  allDots[currentIndex].classList.add("dot_selected");
+}
+
+arrowLeft.addEventListener("click", () => {
+  currentIndex--;
+  updateCarroussel(currentIndex);
 });
 
-let arrowreactleft = document.querySelector(".arrow_left");
-
-arrowreactleft.addEventListener("click", (e) => {
-  i--;
-  let img = document.getElementById("imagechanger");
-  img.src = "./assets/images/slideshow/" + slides[i].image;
-  let texte = slides[i].tagLine;
-  document.getElementById("textechanger").innerHTML = texte;
-  if (i === 3) {
-    i -= 4;
-    let img = document.getElementById("imagechanger");
-  }
+arrowRight.addEventListener("click", () => {
+  currentIndex++;
+  updateCarroussel(currentIndex);
 });
 
-var i = 0;
+function createDots() {
+  for (let index = 0; index < slides.length; index++) {
+    const dot = document.createElement("div");
+    dot.classList.add("dot");
+    if (index === 0) {
+      dot.classList.add("dot_selected");
+    }
+    dotsContainer.appendChild(dot);
+  }
+}
+
+createDots();
