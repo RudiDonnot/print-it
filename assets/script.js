@@ -48,4 +48,25 @@ function updateCarroussel(index) {
   allDots[currentIndex].classList.add("dot_selected");
 }
 
+arrowLeft.addEventListener("click", () => {
+  currentIndex--;
+  updateCarroussel(currentIndex);
+});
+
+arrowRight.addEventListener("click", () => {
+  currentIndex++;
+  updateCarroussel(currentIndex);
+});
+
+function createDots() {
+  for (let index = 0; index < slides.length; index++) {
+    const dot = document.createElement("div");
+    dot.classList.add("dot");
+    if (index === 0) {
+      dot.classList.add("dot_selected");
+    }
+    dotsContainer.appendChild(dot);
+  }
+}
+
 createDots();
