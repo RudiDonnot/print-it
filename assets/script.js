@@ -28,25 +28,24 @@ const dotsContainer = document.querySelector(".dots");
 
 let currentIndex = 0;
 
-arrowLeft.addEventListener("click", () => {
-  currentIndex--;
-  updateCarroussel(currentIndex);
-});
-
-arrowRight.addEventListener("click", () => {
-  currentIndex++;
-  updateCarroussel(currentIndex);
-});
-
-function createDots() {
-  for (let index = 0; index < slides.length; index++) {
-    const dot = document.createElement("div");
-    dot.classList.add("dot");
-    if (index === 0) {
-      dot.classList.add("dot_selected");
-    }
-    dotsContainer.appendChild(dot);
+function updateCarroussel(index) {
+  if (index < 0) {
+    currentIndex = slides.length - 1;
+  } else if (index >= slides.length) {
+    currentIndex = 0;
   }
+  const slide = slides[currentIndex];
+  bannerImg.src = `assets/images/slideshow/${slide.image}`;
+  document.querySelector("p").innerHTML = slide.tagLine;
+
+  //fonction pour les points//
+  const allDots = dotsContainer.querySelectorAll(".dot");
+  allDots.forEach((dot) => {
+    dot.classList.remove("dot_selected");
+  });
+
+  //fonction d'ajout des points//
+  allDots[currentIndex].classList.add("dot_selected");
 }
 
 createDots();
